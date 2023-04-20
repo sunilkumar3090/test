@@ -1,0 +1,90 @@
+<!-- <div class="table-container mat-elevation-z8"> -->
+
+<!-- <mat-form-field>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Filter">
+    </mat-form-field> -->
+
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+
+
+<div class="table-container mat-elevation-z8">
+
+    <mat-form-field>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Filter">
+    </mat-form-field>
+
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+
+    <mat-table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows>
+
+        <!-- Table Header -->
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <td mat-cell *matCellDef="let user">{{ user.id }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="firstName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
+            <td mat-cell *matCellDef="let user">{{ user.firstName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="lastName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
+            <td mat-cell *matCellDef="let user">{{ user.lastName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+            <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let user">
+                <button mat-icon-button (click)="toggleEdit(user)">
+                    <mat-icon>{{ user.editing ? 'done' : 'edit' }}</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+        <ng-container matColumnDef="expandedDetail">
+            <td [attr.colspan]="displayedColumns.length" *matCellDef="let user">
+                <div class="expanded-row-content" *ngIf="expandedElement === user">
+                    <div class="input-field">
+                        <mat-form-field>
+                            <input matInput [(ngModel)]="user.firstName" placeholder="First Name">
+                        </mat-form-field>
+                    </div>
+                    <div class="input-field">
+                        <mat-form-field>
+                            <input matInput [(ngModel)]="user.lastName" placeholder="Last Name">
+                        </mat-form-field>
+                    </div>
+                    <div class="input-field">
+                        <mat-form-field>
+                            <input matInput [(ngModel)]="user.email" placeholder="Email">
+                        </mat-form-field>
+                    </div>
+                    <div class="actions">
+                        <button mat-button color="primary" (click)="save(user)">Save</button>
+                        <button mat-button color="warn" (click)="cancel(user)">Cancel</button>
+                    </div>
+                </div>
+            </td>
+        </ng-container>
+
+        <!-- Table Rows -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let user; columns: displayedColumns;" [class.expanded-row]="expandedElement === user"
+            (click)="expandedElement = expandedElement === user ? null : user">
+        </tr>
+
+        <!-- Expandable Rows -->
+        <tr mat-row *matRowDef="let user; columns: ['expandedDetail'];" class="expanded-row-detail">
+        </tr>
+    </mat-table>
+
+
+    <!-- <mat-paginator [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>-->
+
+</div>
